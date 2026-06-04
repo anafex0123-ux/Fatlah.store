@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر Fatlah | عالم الغزول والخيوط</title>
+    <style>
+        :root {
+            --bg-amazon: #0a0a0c;
+            --nav-amazon: #131921;
+            --card-bg: #191e26;
+            --primary-red: #ff3b30;
+            --amazon-gold: #febd69;
+            --text-main: #ffffff;
+            --text-muted: #b1b3b6;
+            --border-line: #252d38;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-amazon);
+            color: var(--text-main);
+            padding-bottom: 50px;
+        }
+
+        /* شريط نظام أمازون العلوي النظيف */
+        .amazon-nav {
+            background-color: var(--nav-amazon);
+            padding: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        /* بار البحث الشهير لأمازون */
+        .search-container {
+            display: flex;
+            width: 100%;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            background-color: #fff;
+            color: #000;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--primary-red);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px 0 0 6px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* شريط الأقسام السريع التصفح */
+        .categories-scroll {
+            display: flex;
+            gap: 15px;
+            padding: 15px 10px;
+            overflow-x: auto;
+            background-color: #1a222d;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            min-width: 65px;
+            text-decoration: none;
+        }
+
+        .cat-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* شبكة المنتجات الاحترافية (2 في كل صف مثل المتنقل) */
+        .amazon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 12px;
+        }
+
+        .amazon-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-line);
+        }
+
+        .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--primary-red);
+            color: white;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .prod-image-wrapper {
+            background-color: #0e1218;
+            height: 120px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .prod-title {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            height: 36px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        /* تقييم النجوم مثل أمازون */
+        .rating {
+            color: var(--amazon-gold);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .price-tag {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .price-tag span {
+            font-size: 11px;
+            color: var(--primary-red);
+            text-decoration: line-through;
+            margin-right: 5px;
+        }
+
+        /* زر الإضافة للسلة الأصفر/الأحمر الأمازوني */
+        .amazon-btn {
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* لوحة التحكم المعزولة في الأسفل */
+        .admin-panel-bottom {
+            margin: 25px 12px;
+            background-color: var(--nav-amazon);
+            border: 2px solid var(--border-line);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .panel-header {
+            color: var(--primary-red);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-amazon);
+            border: 1px solid var(--border-line);
+            color: white;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .submit-btn {
+            background-color: #2ed573;
+            color: black;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .alert-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1b3a24;
+            color: #2ed573;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            display: none;
+            z-index: 1000;
+            border: 1px solid #2ed573;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ناف بار أمازون الاحترافي -->
+    <div class="amazon-nav">
+        <div class="nav-top">
+            <div class="logo">Fatlah<span>.com</span></div>
+            <div style="font-size: 12px; color: var(--text-muted);">📍 شحن إلى مصر</div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="ابحث في متجر Fatlah للغزول...">
+            <button class="search-btn">بحث</button>
+        </div>
+    </div>
+
+    <!-- بار الأقسام السريعة التفاعلي بستايل أمازون -->
+    <div class="categories-scroll" id="amazon-nav-bar">
+        <a href="#" class="cat-item">
+            <div class="cat-circle">🏠</div>
+            <span>الرئيسية</span>
+        </a>
+        <a href="#" class="cat-item">
+            <div class="cat-circle">🧶</div>
+            <span>خيوط ص夫</span>
+        </a>
+        <a href="#" class="cat-item">
+            <div class="cat-circle">🧵</div>
+            <span>غزول قطن</span>
+        </a>
+    </div>
+
+    <h3 style="padding: 15px 12px 5px 12px; font-size: 16px;">🔥 العروض المميزة الحالية:</h3>
+
+    <!-- شبكة عرض المنتجات الفخمة -->
+    <div class="amazon-grid" id="store-products-row">
+
+        <!-- منتج 1 -->
+        <div class="amazon-card">
+            <div class="badge">الأكثر مبيعاً</div>
+            <div class="prod-image-wrapper">🧶</div>
+            <div class="prod-title">غزل قطن ممشط ناعم فاخر - سمك متوسط</div>
+            <div class="rating">⭐⭐⭐⭐⭐ (45)</div>
+            <div class="price-tag">120 جنيه <span>150 ج</span></div>
+            <button class="amazon-btn">إضافة للسلة</button>
+        </div>
+
+        <!-- منتج 2 -->
+        <div class="amazon-card">
+            <div class="badge">خصم 15%</div>
+            <div class="prod-image-wrapper">🧵</div>
+            <div class="prod-title">خيوط بوليستر تركي أصلي لماكينات الخياطة</div>
+            <div class="rating">⭐⭐⭐⭐☆ (32)</div>
+            <div class="price-tag">85 جنيه <span>100 ج</span></div>
+            <button class="amazon-btn">إضافة للسلة</button>
+        </div>
+
+    </div>
+
+    <!-- لوحة التحكم الإدارية المنعزلة بالأسفل -->
+    <div class="admin-panel-bottom">
+        <div class="panel-header">⚙️ لوحة تحكم الإدارة والتحديث الفوري</div>
+
+        <!-- فرع الصفحات -->
+        <div style="margin-bottom: 15px; border-bottom: 1px dashed var(--border-line); padding-bottom: 15px;">
+            <div class="form-group">
+                <label>اسم الصفحة/القسم الجديد بالمنيو:</label>
+                <input type="text" id="page-name" placeholder="مثال: خيوط حرير طبيعي">
+            </div>
+            <button class="submit-btn" style="background-color: var(--primary-red); color: white;" onclick="addNewPage()">إضافة الصفحة للمنيو</button>
+        </div>
+
+        <!-- فرع المنتجات -->
+        <div>
+            <div class="form-group">
+                <label>اسم خامة الغزل الحركي:</label>
+                <input type="text" id="prod-name" placeholder="خيط صوف نيوزيلندي">
+            </div>
+            <div class="form-group">
+                <label>السعر الحالي (جنيه):</label>
+                <input type="number" id="prod-price" placeholder="250">
+            </div>
+            <div class="form-group">
+                <label>شكل الأيقونة:</label>
+                <select id="prod-icon">
+                    <option value="🧶">🧶 بكرة خيط كاملة</option>
+                    <option value="🧵">🧵 بكرة رفيعة</option>
+                </select>
+            </div>
+            <button class="submit-btn" onclick="addNewProduct()">تأكيد ونشر المنتج بالمتجر</button>
+        </div>
+    </div>
+
+    <!-- التنبيه السريع الذكي -->
+    <div class="alert-toast" id="toast-alert">تم التحديث بنجاح!</div>
+
+    <script>
+        function showToast(msg) {
+            const toast = document.getElementById('toast-alert');
+            toast.innerText = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+        }
+
+        function addNewPage() {
+            const pageInput = document.getElementById('page-name');
+            const name = pageInput.value.trim();
+            if(!name) return alert("الرجاء كتابة اسم القسم!");
+
+            const nav = document.getElementById('amazon-nav-bar');
+            const a = document.createElement('a');
+            a.href = "#";
+            a.className = "cat-item";
+            a.innerHTML = `<div class="cat-circle">✨</div><span>${name}</span>`;
+            nav.appendChild(a);
+
+            showToast(`✅ أُضيفت صفحة "${name}" لقائمة التصفح بنجاح!`);
+            pageInput.value = "";
+        }
+
+        function addNewProduct() {
+            const name = document.getElementById('prod-name').value.trim();
+            const price = document.getElementById('prod-price').value.trim();
+            const icon = document.getElementById('prod-icon').value;
+
+            if(!name || !price) return alert("الرجاء ملء حقول المنتج!");
+
+            const grid = document.getElementById('store-products-row');
+            const card = document.createElement('div');
+            card.className = "amazon-card";
+            card.innerHTML = `
+                <div class="badge">جديد ✨</div>
+                <div class="prod-image-wrapper">${icon}</div>
+                <div class="prod-title">${name}</div>
+                <div class="rating">⭐⭐⭐⭐⭐ (1)</div>
+                <div class="price-tag">${price} جنيه</div>
+                <button class="amazon-btn">إضافة للسلة</button>
+            `;
+            grid.appendChild(card);
+
+            showToast(`✅ تم نشر منتج "${name}" بستايل أمازون!`);
+            document.getElementById('prod-name').value = "";
+            document.getElementById('prod-price').value = "";
+        }
+    </script>
+</body>
+              </html>
